@@ -19,7 +19,7 @@ curl -fsSL https://raw.githubusercontent.com/rima0222/Am_wg/main/install.sh | su
 - افزودن کاربر → دانلود فایل کانفیگ یا اسکن QR با اپ WireGuard/AmneziaWG روی گوشی یا کامپیوتر
 - مشاهده‌ی مصرف، وضعیت آنلاین، تنظیم سقف حجم و تاریخ انقضا برای هر کاربر
 
-⚠️ کلاینت‌ها باید از اپ **AmneziaWG** (نه وایرگارد معمولی) استفاده کنن چون پارامترهای ضدDPI (Jc, Jmin, Jmax, H1-H4, S1, S2) فقط توسط AmneziaWG پشتیبانی می‌شن. اپ رسمی: https://amnezia.org/downloads
+⚠️ارامترها می: https://amnezia.org/downlo
 
 ## دستورات مفید
 
