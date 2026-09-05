@@ -20,20 +20,21 @@ err()  { echo -e "\033[1;31m[x]\033[0m $*" >&2; }
 
 ask() {
   # ask "متن سوال" "مقدار پیش‌فرض"
-  local prompt="$1" default="${2:-}"
-  local answer
-  if [ -t 0 ]; then
-    read -rp "$prompt [$default]: " answer </dev/tty || true
+  local prompt="$1" default="${2:-}" answer
+  if [ -n "$default" ]; then
+    printf '\n>> %s\n   (اگه همینو می‌خوای فقط Enter بزن) [%s]: ' "$prompt" "$default" > /dev/tty
   else
-    read -rp "$prompt [$default]: " answer </dev/tty 2>/dev/null || answer=""
+    printf '\n>> %s: ' "$prompt" > /dev/tty
   fi
+  IFS= read -r answer < /dev/tty
   echo "${answer:-$default}"
 }
 
 ask_secret() {
   local prompt="$1" answer
-  read -rsp "$prompt: " answer </dev/tty
-  echo "" >&2
+  printf '\n>> %s: ' "$prompt" > /dev/tty
+  IFS= read -rs answer < /dev/tty
+  echo "" > /dev/tty
   echo "$answer"
 }
 
@@ -61,9 +62,13 @@ if [ -z "$PUBLIC_IP" ]; then
   warn "تشخیص خودکار IP ناموفق بود؛ خودت باید واردش کنی."
 fi
 SERVER_ENDPOINT="$(ask 'آدرس IP یا دامنه‌ای که کلاینت‌ها باهاش وصل می‌شن' "${PUBLIC_IP}")"
+echo "   -> انتخاب شد: ${SERVER_ENDPOINT}" > /dev/tty
 WG_PORT="$(ask 'پورت UDP وایرگارد (برای جلوگیری از تداخل، یه پورت غیرمعمول انتخاب کن)' "$(random_int 20000 60000)")"
+echo "   -> انتخاب شد: ${WG_PORT}" > /dev/tty
 PANEL_PORT="$(ask 'پورت پنل مدیریت (وب)' "8787")"
+echo "   -> انتخاب شد: ${PANEL_PORT}" > /dev/tty
 ADMIN_USER="$(ask 'نام کاربری ادمین پنل' "admin")"
+echo "   -> انتخاب شد: ${ADMIN_USER}" > /dev/tty
 ADMIN_PASS="$(ask_secret 'رمز عبور ادمین پنل را وارد کن')"
 if [ -z "$ADMIN_PASS" ]; then
   ADMIN_PASS="$(random_hex 8)"
