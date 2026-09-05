@@ -13,9 +13,9 @@
 ## نصب سریع
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/<YOUR_USERNAME>/amnezia-wg-panel/main/install.sh | sudo bash
-```
 curl -fsSL https://raw.githubusercontent.com/rima0222/Am_wg/main/install.sh | sudo bash
+```
+
 
 در حین نصب ازت این‌ها پرسیده می‌شه: آی‌پی/دامنه‌ی سرور، پورت وایرگارد، پورت پنل، نام کاربری و رمز ادمین. در پایان لینک پنل رو بهت نشون می‌ده.
 
