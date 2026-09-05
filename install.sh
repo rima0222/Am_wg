@@ -6,7 +6,7 @@
 #
 set -euo pipefail
 
-REPO_URL="${AWG_PANEL_REPO_URL:-https://github.com/REPLACE_ME/amnezia-wg-panel.git}"
+REPO_URL="${AWG_PANEL_REPO_URL:-https://github.com/rima0222/Am_wg.git}"
 INSTALL_DIR="/opt/awg-panel"
 ETC_DIR="/etc/awg-panel"
 WG_ETC_DIR="/etc/amnezia/amneziawg"
@@ -52,7 +52,14 @@ fi
 log "شروع نصب AmneziaWG + پنل مدیریت..."
 
 # ---------- ۱. پرسیدن تنظیمات ----------
-PUBLIC_IP="$(curl -s -4 https://api.ipify.org || curl -s -4 https://ifconfig.me || true)"
+log "تشخیص IP عمومی سرور (حداکثر ۵ ثانیه صبر می‌کنیم)..."
+PUBLIC_IP="$(curl -s -4 --max-time 5 https://api.ipify.org || true)"
+if [ -z "$PUBLIC_IP" ]; then
+  PUBLIC_IP="$(curl -s -4 --max-time 5 https://ifconfig.me || true)"
+fi
+if [ -z "$PUBLIC_IP" ]; then
+  warn "تشخیص خودکار IP ناموفق بود؛ خودت باید واردش کنی."
+fi
 SERVER_ENDPOINT="$(ask 'آدرس IP یا دامنه‌ای که کلاینت‌ها باهاش وصل می‌شن' "${PUBLIC_IP}")"
 WG_PORT="$(ask 'پورت UDP وایرگارد (برای جلوگیری از تداخل، یه پورت غیرمعمول انتخاب کن)' "$(random_int 20000 60000)")"
 PANEL_PORT="$(ask 'پورت پنل مدیریت (وب)' "8787")"
